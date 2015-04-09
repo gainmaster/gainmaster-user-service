@@ -6,7 +6,7 @@ import gainmaster.service.user.web.rest.endpoint.UsersEndpoint;
 import gainmaster.service.user.web.rest.resource.UsersResource;
 
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.*;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +34,16 @@ public class UsersResourceAssembler extends ResourceAssemblerSupport<Page<UserEn
     @Override
     public UsersResource toResource(Page<UserEntity> page) {
         UsersResource usersResource = instantiateResource(page);
-        //TODO: Make self rel a template
-        usersResource.add(links.linkToCollectionResource(UserResource.class).withSelfRel());
+
+        TemplateVariable paramSize = new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM);
+        TemplateVariable paramPage = new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM);
+
+        UriTemplate uriTemplate = new UriTemplate(
+            links.linkToCollectionResource(UserResource.class).getHref(),
+            new TemplateVariables(paramSize, paramPage)
+        );
+
+        usersResource.add(new Link(uriTemplate, "self"));
 
         if (!page.isFirst()) {
             usersResource.add(linkTo(methodOn(UsersEndpoint.class).getUsers(
