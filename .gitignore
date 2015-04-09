@@ -1,0 +1,11 @@
+.gradle
+.idea
+.vagrant
+build
+out
+*.iml
+*.ipr
+*.iws
+nbproject
+.DS_Store
+jsp
