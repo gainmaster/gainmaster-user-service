@@ -82,5 +82,9 @@ Content-Type: application/hal+json
 
 ## References
 
-These referances have been helpful when creating this repository:
+These references have been helpful when creating this repository:
 
+https://github.com/dsyer/sparklr-boot
+http://docs.spring.io/spring-security/site/docs/3.0.x/reference/el-access.html
+http://projects.spring.io/spring-security-oauth/docs/oauth2.html
+https://github.com/jirutka/spring-rest-exception-handler
