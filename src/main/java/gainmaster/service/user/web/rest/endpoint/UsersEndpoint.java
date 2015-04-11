@@ -1,18 +1,15 @@
 package gainmaster.service.user.web.rest.endpoint;
 
 import gainmaster.service.user.web.rest.resource.UserResource;
-import gainmaster.service.user.web.rest.resource.UsersResource;
+import gainmaster.service.user.web.rest.resource.UserCollectionResource;
 import gainmaster.service.user.web.rest.resource.assembler.UserResourceAssembler;
 import gainmaster.service.user.entity.UserEntity;
 import gainmaster.service.user.repository.UsersRepository;
 
-import gainmaster.service.user.web.rest.resource.assembler.UsersResourceAssembler;
+import gainmaster.service.user.web.rest.resource.assembler.UserCollectionResourceAssembler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +19,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -30,20 +28,53 @@ import java.util.Optional;
 public class UsersEndpoint {
 
     @Inject
-    UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     @Inject
-    UserResourceAssembler userResourceAssembler;
+    private UserResourceAssembler userResourceAssembler;
 
     @Inject
-    UsersResourceAssembler usersResourceAssembler;
+    private UserCollectionResourceAssembler userCollectionResourceAssembler;
 
-    @Inject
-    EntityLinks entityLinks;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<UserCollectionResource> getUsers(
+        @RequestParam(defaultValue = "15") Integer size,
+        @RequestParam(defaultValue = "1") Integer page,
+        @RequestParam(required = false) String query
+    ) {
+
+        Page<UserEntity> users = usersRepository.findAll(new PageRequest(
+            page - 1,
+            size
+        ));
+
+        return new ResponseEntity<UserCollectionResource>(
+            userCollectionResourceAssembler.toResource(users),
+            HttpStatus.OK
+        );
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity addUser(@Valid @RequestBody UserResource userResource) {
+        //TODO: authorization (not logged in)
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(userResource.getName());
+        userEntity.setUsername(userResource.getUsername());
+        userEntity.setEmail(userResource.getEmail());
+        userEntity.setPassword(userResource.getPassword());
+        userEntity.setSalt(userResource.getPassword());
+        userEntity.setCreated(new Date());
+        userEntity = usersRepository.save(userEntity);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(userEntity.getId())).toUri());
+
+        return new ResponseEntity(headers, HttpStatus.CREATED);
+    }
 
     /**
-     * Get single user
+     * Get user resource
      *
      * @param id
      * @return
@@ -59,43 +90,41 @@ public class UsersEndpoint {
     }
 
     /**
-     * Add single user
+     * Update user resource
      *
-     * @param userResource
+     * @param id
      * @return
      */
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity addUser(@Valid @RequestBody UserResource userResource) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(userResource.getUsername());
-        userEntity.setPassword(userResource.getPassword());
-        userEntity = usersRepository.save(userEntity);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity updateUser(@PathVariable Long id) {
+        //TODO: authorization
+        UserEntity userEntity = usersRepository.findOne(id);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(userEntity.getId())).toUri());
+        if (userEntity == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity(headers, HttpStatus.CREATED);
+        return null;
     }
 
     /**
-     * Get users collection
+     * Delete user resource
      *
-     * @param pageable
+     * @param id
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<UsersResource> getUsers(
-        @RequestParam(defaultValue = "10") String size,
-        @RequestParam(defaultValue = "1") String page
-    ) {
-        Page<UserEntity> users = usersRepository.findAll(new PageRequest(
-            (Integer.parseInt(page) - 1), //TODO: Remove brackets.
-            Integer.parseInt(size)
-        ));
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        //TODO: authorization
+        UserEntity userEntity = usersRepository.findOne(id);
 
-        return new ResponseEntity<UsersResource>(
-            usersResourceAssembler.toResource(users),
-            HttpStatus.OK
-        );
+        if (userEntity == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        usersRepository.delete(userEntity);
+        //TODO: notify other services of deletion (message-bus)
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
 }

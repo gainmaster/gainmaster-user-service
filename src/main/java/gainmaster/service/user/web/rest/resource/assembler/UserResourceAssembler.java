@@ -16,13 +16,17 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<UserEntity, 
     @Override
     public UserResource toResource(UserEntity entity) {
         UserResource resource = createResourceWithId(entity.getId(), entity);
+        //TODO: discover related services and add links (message-bus)
         return resource;
     }
 
     @Override
     protected UserResource instantiateResource(UserEntity entity) {
         UserResource resource = new UserResource();
+        resource.setName(entity.getName());
         resource.setUsername(entity.getUsername());
+        resource.setEmail(entity.getEmail());
         return resource;
     }
+
 }
