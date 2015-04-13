@@ -29,9 +29,6 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UsersEndpoint {
 
-    @Autowired
-    private volatile UserRabbitGateway userRabbitGateway;
-
     @Inject
     private UsersRepository usersRepository;
 
@@ -74,9 +71,6 @@ public class UsersEndpoint {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(userEntity.getId())).toUri());
-
-        //Send AMQP message
-        userRabbitGateway.sendUserData(userEntity);
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }

@@ -9,11 +9,13 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by lorre on 4/13/15.
  */
 
+@Configuration
 public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
 
     protected final static String USER_EXCHANGE_NAME    = "gainmaster.user.exchange";
@@ -23,11 +25,7 @@ public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        template.setMessageConverter(jsonMessageConverter());
-        template.setExchange(USER_EXCHANGE_NAME);
-        template.setQueue(USER_QUEUE_NAME);
-        template.setReplyQueue(replyUserQueue());
-        template.setReplyTimeout(60000);
+        configureTemplate(template);
         return template;
     }
 
@@ -51,4 +49,12 @@ public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
 
     @Bean
     public Queue replyUserQueue(){ return new Queue(USER_REPLY_QUEUE_NAME);}
+
+    private void configureTemplate(RabbitTemplate template){
+        template.setMessageConverter(jsonMessageConverter());
+        template.setExchange(USER_EXCHANGE_NAME);
+        template.setQueue(USER_QUEUE_NAME);
+        template.setReplyQueue(replyUserQueue());
+        template.setReplyTimeout(60000);
+    }
 }

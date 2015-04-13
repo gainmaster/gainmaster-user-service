@@ -7,6 +7,7 @@ package gainmaster.service.user.web.amqp.handler;
 public class UserReplyHandler {
 
     public void handleMessage(String text) {
+
         //TODO: Process replies
         System.out.println("Reply: " + text);
     }
