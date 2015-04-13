@@ -6,13 +6,15 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by lorre on 4/10/15.
  */
 
+@Component
 public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
-    public void sendUserData(UserEntity userEntity){
+    public void sendMessage(UserEntity userEntity){
 
         //Get external configuration
         ApplicationContext context =

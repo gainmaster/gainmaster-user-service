@@ -8,7 +8,6 @@ import gainmaster.service.user.entity.UserEntity;
 import gainmaster.service.user.repository.UsersRepository;
 
 import gainmaster.service.user.web.rest.resource.assembler.UserCollectionResourceAssembler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -37,6 +36,9 @@ public class UsersEndpoint {
 
     @Inject
     private UserCollectionResourceAssembler userCollectionResourceAssembler;
+
+    @Inject
+    private UserRabbitGateway userRabbitGateway;
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -71,6 +73,9 @@ public class UsersEndpoint {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(userEntity.getId())).toUri());
+
+        //Send AMQP message
+        userRabbitGateway.sendMessage(userEntity);
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }

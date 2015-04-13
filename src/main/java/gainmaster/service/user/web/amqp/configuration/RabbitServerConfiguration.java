@@ -1,6 +1,6 @@
 package gainmaster.service.user.web.amqp.configuration;
 
-import gainmaster.service.user.web.amqp.util.HttpConnection;
+import gainmaster.service.user.web.amqp.util.HttpConnectionUtility;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -24,7 +24,8 @@ public abstract class RabbitServerConfiguration {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory;
-        String hostname = HttpConnection.getResponse(RABBITMQ_ETCD_PATH);
+
+        String hostname = HttpConnectionUtility.getJSONNode(RABBITMQ_ETCD_PATH, "value");
         if(hostname == null){
             connectionFactory = new CachingConnectionFactory(DEFAULT_HOSTNAME);
         }else{

@@ -15,8 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Created by lorre on 4/13/15.
  */
-public class HttpConnection {
 
+public class HttpConnectionUtility {
 
     public static String getResponse(String path) {
         StringBuffer response = new StringBuffer();
@@ -36,16 +36,20 @@ public class HttpConnection {
             return null;
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        return response.toString();
+    }
 
+    public static String getJSONNode(String path, String node){
+        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = null;
+
         try {
-            rootNode = objectMapper.readTree(response.toString());
+            rootNode = objectMapper.readTree(getResponse(path));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        JsonNode valueNode = rootNode.path("value");
+        JsonNode valueNode = rootNode.path(node);
         return valueNode.get(0).toString();
     }
 }
