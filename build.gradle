@@ -38,14 +38,14 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://repo.spring.io/libs-release" }
-    maven { url "https://repository.jbos.org/nexus/content/repositories/releases" }
+    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-amqp")
+    compile("org.springframework.amqp:spring-rabbit:1.4.4.RELEASE")
     compile("com.h2database:h2")
     compile("javax.inject:javax.inject:1")
     compile("org.springframework.hateoas:spring-hateoas")

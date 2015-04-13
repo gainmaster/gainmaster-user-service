@@ -5,13 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.util.Iterator;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by lorre on 4/13/15.
  */
 public class HttpConnection {
 
-    public static String sendGet(String path){
+
+    public static String getResponse(String path) {
         StringBuffer response = new StringBuffer();
         try {
             URL url = new URL(path);
@@ -28,6 +35,17 @@ public class HttpConnection {
         } catch (IOException e) {
             return null;
         }
-        return response.toString();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode rootNode = null;
+        try {
+            rootNode = objectMapper.readTree(response.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        JsonNode valueNode = rootNode.path("value");
+        return valueNode.get(0).toString();
     }
 }

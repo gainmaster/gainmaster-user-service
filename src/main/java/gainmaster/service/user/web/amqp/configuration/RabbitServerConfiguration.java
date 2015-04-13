@@ -30,7 +30,7 @@ public class RabbitServerConfiguration {
     protected final static String DEFAULT_HOSTNAME = "localhost";
     protected final static String USERNAME = "guest";
     protected final static String PASSWORD = "guest";
-    protected final static String RABBITMQ_ETCD_PATH = "path/to/rabbitmq/etcd/ip";
+    protected final static String RABBITMQ_ETCD_PATH = "http://127.0.0.1:4001/v2/keys/registrator/rabbitmq/1";
 
     protected final static String USER_EXCHANGE_NAME = "gainmaster.user.exchange";
     protected final static String USER_QUEUE_NAME = "gainmaster.user.queue";
@@ -41,7 +41,7 @@ public class RabbitServerConfiguration {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory;
-        String hostname = HttpConnection.sendGet(RABBITMQ_ETCD_PATH);
+        String hostname = HttpConnection.getResponse(RABBITMQ_ETCD_PATH);
         if(hostname == null){
             connectionFactory = new CachingConnectionFactory(DEFAULT_HOSTNAME);
         }else{
