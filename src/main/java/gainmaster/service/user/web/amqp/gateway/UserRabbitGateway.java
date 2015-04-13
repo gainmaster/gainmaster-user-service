@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * Created by lorre on 4/10/15.
  */
 
-public class RabbitUserGateway extends RabbitGatewaySupport implements UserGateway {
+public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
     public void sendUserData(UserEntity userEntity){
 
         //Get external configuration

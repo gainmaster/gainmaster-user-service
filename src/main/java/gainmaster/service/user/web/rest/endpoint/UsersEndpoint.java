@@ -1,6 +1,6 @@
 package gainmaster.service.user.web.rest.endpoint;
 
-import gainmaster.service.user.web.amqp.gateway.RabbitUserGateway;
+import gainmaster.service.user.web.amqp.gateway.UserRabbitGateway;
 import gainmaster.service.user.web.rest.resource.UserResource;
 import gainmaster.service.user.web.rest.resource.UserCollectionResource;
 import gainmaster.service.user.web.rest.resource.assembler.UserResourceAssembler;
@@ -30,7 +30,7 @@ import java.util.Optional;
 public class UsersEndpoint {
 
     @Autowired
-    private volatile RabbitUserGateway rabbitUserGateway;
+    private volatile UserRabbitGateway userRabbitGateway;
 
     @Inject
     private UsersRepository usersRepository;
@@ -76,7 +76,7 @@ public class UsersEndpoint {
         headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(userEntity.getId())).toUri());
 
         //Send AMQP message
-        rabbitUserGateway.sendUserData(userEntity);
+        userRabbitGateway.sendUserData(userEntity);
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
