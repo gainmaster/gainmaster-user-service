@@ -32,7 +32,7 @@ public class HttpConnectionUtility {
         } catch (IOException e) {
             return null;
         }
-
+        System.out.println("HttpConnectionUtility->getResponse: " + response.toString());
         return response.toString();
     }
 
@@ -48,7 +48,8 @@ public class HttpConnectionUtility {
             e.printStackTrace();
             return null;
         }
-        JsonNode valueNode = rootNode.path(node);
-        return valueNode.get(0).toString();
+        JsonNode selectedNode = rootNode.path(node);
+        System.out.println("HttpConnectionUtility->getJSONNode: " + selectedNode.get(0).toString());
+        return selectedNode.get(0).toString();
     }
 }
