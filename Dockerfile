@@ -5,4 +5,6 @@ COPY ./ /srv/http/gainmaster-user-service
 
 WORKDIR /srv/http/gainmaster-user-service
 
-CMD ["./gradlew", "bootRun"]
+RUN ["./gradlew", "build"]
+
+CMD ["java", "-jar", "./build/libs/gainmaster-user-service-0.1.0.war"]
