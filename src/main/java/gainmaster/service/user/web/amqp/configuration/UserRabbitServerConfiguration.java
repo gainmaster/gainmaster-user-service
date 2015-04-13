@@ -1,5 +1,6 @@
 package gainmaster.service.user.web.amqp.configuration;
 
+import gainmaster.service.user.web.amqp.gateway.UserRabbitGateway;
 import gainmaster.service.user.web.amqp.handler.UserReplyHandler;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
@@ -36,6 +37,13 @@ public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
         container.setQueues(replyUserQueue());
         container.setMessageListener(new MessageListenerAdapter(new UserReplyHandler()));
         return container;
+    }
+
+    @Bean
+    UserRabbitGateway userRabbitGateway(){
+        UserRabbitGateway userRabbitGateway = new UserRabbitGateway();
+        userRabbitGateway.setRabbitTemplate(rabbitTemplate());
+        return userRabbitGateway;
     }
 
     @Bean

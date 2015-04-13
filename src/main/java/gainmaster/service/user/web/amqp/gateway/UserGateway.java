@@ -7,5 +7,6 @@ import gainmaster.service.user.entity.UserEntity;
  */
 
 public interface UserGateway {
+
     void sendMessage(UserEntity userEntity);
 }

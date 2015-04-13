@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Iterator;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,7 +41,9 @@ public class HttpConnectionUtility {
         JsonNode rootNode = null;
 
         try {
-            rootNode = objectMapper.readTree(getResponse(path));
+            String response = getResponse(path);
+            if(response == null) return null;
+            rootNode = objectMapper.readTree(response);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
