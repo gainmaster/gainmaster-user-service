@@ -6,6 +6,6 @@ import gainmaster.service.user.entity.UserEntity;
  * Created by lorre on 4/10/15.
  */
 
-public interface UserDataGateway {
+public interface UserGateway {
     void sendUserData(UserEntity userEntity);
 }
