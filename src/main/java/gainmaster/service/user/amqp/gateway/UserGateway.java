@@ -1,6 +1,6 @@
-package gainmaster.service.user.web.amqp.gateway;
+package gainmaster.service.user.amqp.gateway;
 
-import gainmaster.service.user.entity.UserEntity;
+import gainmaster.service.user.persistence.entity.UserEntity;
 
 /**
  * Created by lorre on 4/10/15.

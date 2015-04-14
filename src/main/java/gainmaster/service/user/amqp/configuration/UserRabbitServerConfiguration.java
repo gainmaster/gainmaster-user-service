@@ -1,8 +1,7 @@
-package gainmaster.service.user.web.amqp.configuration;
+package gainmaster.service.user.amqp.configuration;
 
-import gainmaster.service.user.web.amqp.gateway.UserRabbitGateway;
-import gainmaster.service.user.web.amqp.handler.UserReplyHandler;
-import org.springframework.amqp.core.DirectExchange;
+import gainmaster.service.user.amqp.gateway.UserRabbitGateway;
+import gainmaster.service.user.amqp.handler.UserReplyHandler;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * Created by lorre on 4/13/15.
  */
 
-@Configuration
+//@Configuration
 public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
 
     protected final static String USER_EXCHANGE_NAME    = "gainmaster.user.exchange";

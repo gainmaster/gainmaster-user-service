@@ -1,6 +1,6 @@
-package gainmaster.service.user.web.amqp.configuration;
+package gainmaster.service.user.amqp.configuration;
 
-import gainmaster.service.user.web.amqp.util.HttpConnectionUtility;
+import gainmaster.service.user.amqp.util.HttpConnectionUtility;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * Created by lorre on 4/10/15.
  */
 
-@Configuration
+//@Configuration
 public abstract class RabbitServerConfiguration {
 
     protected final static String DEFAULT_HOSTNAME      = "localhost";

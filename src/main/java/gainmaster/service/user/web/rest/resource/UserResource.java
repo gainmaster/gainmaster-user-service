@@ -1,5 +1,7 @@
 package gainmaster.service.user.web.rest.resource;
 
+import gainmaster.service.user.service.User;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Relation(value = "user", collectionRelation = "users")
-public class UserResource extends ResourceSupport {
+public class UserResource extends ResourceSupport implements User {
 
     @NotNull
     @Size(min = 2, max = 255)
@@ -33,6 +35,12 @@ public class UserResource extends ResourceSupport {
 
     @JsonCreator
     public UserResource() {}
+
+    @JsonIgnore
+    public Long getUserId() {
+        // TODO: Fix this user id mess!
+        return null;
+    }
 
     @JsonProperty
     public String getName() {

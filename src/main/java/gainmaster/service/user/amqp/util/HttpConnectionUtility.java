@@ -1,4 +1,4 @@
-package gainmaster.service.user.web.amqp.util;
+package gainmaster.service.user.amqp.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

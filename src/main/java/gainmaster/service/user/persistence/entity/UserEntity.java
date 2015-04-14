@@ -1,4 +1,6 @@
-package gainmaster.service.user.entity;
+package gainmaster.service.user.persistence.entity;
+
+import gainmaster.service.user.service.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
     @UniqueConstraint(columnNames = "username"),
     @UniqueConstraint(columnNames = "email")
 })
-public class UserEntity {
+public class UserEntity implements User {
 
     @Id
     @GeneratedValue
@@ -36,7 +38,7 @@ public class UserEntity {
 
     public UserEntity() {}
 
-    public Long getId() {
+    public Long getUserId() {
         return id;
     }
 

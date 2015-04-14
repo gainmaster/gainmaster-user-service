@@ -88,3 +88,5 @@ https://github.com/dsyer/sparklr-boot
 http://docs.spring.io/spring-security/site/docs/3.0.x/reference/el-access.html
 http://projects.spring.io/spring-security-oauth/docs/oauth2.html
 https://github.com/jirutka/spring-rest-exception-handler
+
+http://docs.spring.io/spring-amqp/docs/1.4.4.RELEASE/reference/html/

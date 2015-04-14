@@ -1,4 +1,4 @@
-package gainmaster.service.user.web.amqp.handler;
+package gainmaster.service.user.amqp.handler;
 
 /**
  * Created by lorre on 4/13/15.

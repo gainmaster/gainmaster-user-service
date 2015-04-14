@@ -1,7 +1,7 @@
 package gainmaster.service.user.web.rest.resource.assembler;
 
+import gainmaster.service.user.service.User;
 import gainmaster.service.user.web.rest.resource.UserResource;
-import gainmaster.service.user.entity.UserEntity;
 import gainmaster.service.user.web.rest.endpoint.UsersEndpoint;
 import gainmaster.service.user.web.rest.resource.UserCollectionResource;
 
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Component
-public class UserCollectionResourceAssembler extends ResourceAssemblerSupport<Page<UserEntity>, UserCollectionResource> {
+public class UserCollectionResourceAssembler extends ResourceAssemblerSupport<Page<User>, UserCollectionResource> {
 
     @Inject
     private UserResourceAssembler userResourceAssembler;
@@ -33,7 +33,7 @@ public class UserCollectionResourceAssembler extends ResourceAssemblerSupport<Pa
 
 
     @Override
-    public UserCollectionResource toResource(Page<UserEntity> page) {
+    public UserCollectionResource toResource(Page<User> page) {
         UserCollectionResource resource = instantiateResource(page);
 
 
@@ -69,7 +69,7 @@ public class UserCollectionResourceAssembler extends ResourceAssemblerSupport<Pa
     }
 
     @Override
-    protected UserCollectionResource instantiateResource(Page<UserEntity> page) {
+    protected UserCollectionResource instantiateResource(Page<User> page) {
         List<UserResource> embeddedResources = userResourceAssembler.toResources(page);
 
         UserCollectionResource resource = new UserCollectionResource(embeddedResources);
