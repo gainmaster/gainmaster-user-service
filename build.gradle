@@ -16,11 +16,11 @@ apply plugin: 'idea'
 apply plugin: 'war'
 
 bootRepackage { //TODO: Why am i here
-    mainClass = 'gainmaster.service.user.Application'
+    mainClass = 'no.gainmaster.user.Application'
 }
 
 springBoot { //TODO: Why am i here
-    mainClass = 'gainmaster.service.user.Application'
+    mainClass = 'no.gainmaster.user.Application'
 }
 
 jar {
