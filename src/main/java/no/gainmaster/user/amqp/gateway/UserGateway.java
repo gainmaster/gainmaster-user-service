@@ -1,6 +1,7 @@
 package no.gainmaster.user.amqp.gateway;
 
 import no.gainmaster.user.persistence.entity.UserEntity;
+import no.gainmaster.user.service.User;
 
 /**
  * Created by lorre on 4/10/15.
@@ -8,5 +9,5 @@ import no.gainmaster.user.persistence.entity.UserEntity;
 
 public interface UserGateway {
 
-    void sendMessage(UserEntity userEntity);
+    void sendMessage(User userEntity);
 }

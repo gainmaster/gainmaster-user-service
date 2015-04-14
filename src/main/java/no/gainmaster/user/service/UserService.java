@@ -1,5 +1,6 @@
 package no.gainmaster.user.service;
 
+import no.gainmaster.user.amqp.gateway.UserRabbitGateway;
 import no.gainmaster.user.persistence.entity.UserEntity;
 import no.gainmaster.user.persistence.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserService {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private UserRabbitGateway userRabbitGateway;
+
     public User createUser(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setName(user.getName());
@@ -23,6 +27,10 @@ public class UserService {
         userEntity.setSalt(user.getPassword());
         userEntity.setCreated(new Date());
         userEntity = usersRepository.save(userEntity);
+
+        //For testing
+        userRabbitGateway.sendMessage(userEntity);
+
         return userEntity;
     }
 
@@ -55,7 +63,6 @@ public class UserService {
     }
 
     public Page<User> getUsers(PageRequest pageRequest) {
-
         return usersRepository.findAll(pageRequest);
     }
 }
