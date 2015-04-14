@@ -4,6 +4,7 @@ import no.gainmaster.user.amqp.gateway.UserRabbitGateway;
 import no.gainmaster.user.amqp.handler.UserReplyHandler;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -19,8 +20,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
 
-    protected final static String USER_EXCHANGE_NAME    = "gainmaster.user.exchange";
-    protected final static String USER_REPLY_QUEUE_NAME = "gainmaster.user.reply.queue";
+    protected final static String USER_EXCHANGE_NAME    = "gainmaster.user.exchange.topic";
+    protected final static String USER_REPLY_QUEUE_NAME = "gainmaster.user.queue.reply";
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
@@ -49,15 +50,15 @@ public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
     public MessageConverter jsonMessageConverter() { return new JsonMessageConverter();}
 
     @Bean
-    public FanoutExchange userDataExchange() { return new FanoutExchange(USER_EXCHANGE_NAME);}
+    public TopicExchange userTopicExchange() { return new TopicExchange(USER_EXCHANGE_NAME);}
 
     @Bean
-    public Queue replyUserQueue(){ return new Queue(USER_REPLY_QUEUE_NAME);}
+    public Queue userReplyQueue(){ return new Queue(USER_REPLY_QUEUE_NAME);}
 
     private void configureTemplate(RabbitTemplate template){
-        template.setMessageConverter(jsonMessageConverter());
+        //template.setMessageConverter(jsonMessageConverter());
         template.setExchange(USER_EXCHANGE_NAME);
-        template.setReplyQueue(replyUserQueue());
-        template.setReplyTimeout(60000);
+        template.setReplyQueue(userReplyQueue());
+        template.setReplyTimeout(0);
     }
 }

@@ -11,10 +11,16 @@ import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
 
 public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
 
+    private String routingKey = "";
+
     public void sendMessage(User userEntity){
 
         //Send message
-        getRabbitTemplate().convertAndSend(userEntity);
-        System.out.println("RABBITMQ: Sent message " + userEntity);
+        getRabbitTemplate().convertSendAndReceive(routingKey, userEntity.toString());
+        System.out.println("RABBITMQ: Sent message with key=" + routingKey + ": " + userEntity);
+    }
+
+    public void setRoutingKey(String routingKey){
+        this.routingKey = routingKey;
     }
 }

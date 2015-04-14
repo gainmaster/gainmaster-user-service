@@ -28,7 +28,8 @@ public class UserService {
         userEntity.setCreated(new Date());
         userEntity = usersRepository.save(userEntity);
 
-        //For testing
+        //Send AMQP message
+        userRabbitGateway.setRoutingKey("create");
         userRabbitGateway.sendMessage(userEntity);
 
         return userEntity;

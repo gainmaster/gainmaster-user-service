@@ -9,6 +9,6 @@ public class UserReplyHandler {
     public void handleMessage(String text) {
 
         //TODO: Process replies
-        System.out.println("Reply: " + text);
+        System.out.println("RABBITMQ: Got reply: " + text);
     }
 }
