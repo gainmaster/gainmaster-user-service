@@ -16,8 +16,8 @@ public abstract class RabbitServerConfiguration {
 
     protected final static String DEFAULT_HOSTNAME      = "10.0.0.102";
     protected final static int    DEFAULT_PORT          = 49156;
-    protected final static String USERNAME              = "guest";
-    protected final static String PASSWORD              = "guest";
+    protected final static String USERNAME              = "bachelorthesis";
+    protected final static String PASSWORD              = "bachelorthesis";
 
     @Bean
     public ConnectionFactory connectionFactory() {
