@@ -4,10 +4,12 @@ import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 
@@ -18,26 +20,26 @@ import org.springframework.core.env.PropertyResolver;
 @Configuration
 public abstract class RabbitServerConfiguration implements EnvironmentAware{
 
-    protected final static String DEFAULT_HOSTNAME      = "10.0.0.102";
-    protected final static int    DEFAULT_PORT          = 49156;
-    protected final static String USERNAME              = "bachelorthesis";
-    protected final static String PASSWORD              = "bachelorthesis";
+    protected final static String HOSTNAME_KEY = "hostname";
+    protected final static String PORT_KEY     = "port";
+    protected final static String USERNAME_KEY = "username";
+    protected final static String PASSWORD_KEY = "password";
 
     private Environment environment;
     private PropertyResolver propertyResolver;
 
+
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "");
+        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.amqp.");
     }
-
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(DEFAULT_HOSTNAME);
-        connectionFactory.setPort(DEFAULT_PORT);
-        connectionFactory.setUsername(USERNAME);
-        connectionFactory.setPassword(PASSWORD);
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(propertyResolver.getProperty(HOSTNAME_KEY));
+        connectionFactory.setPort(Integer.parseInt(propertyResolver.getProperty(PORT_KEY)));
+        connectionFactory.setUsername(propertyResolver.getProperty(USERNAME_KEY));
+        connectionFactory.setPassword(propertyResolver.getProperty(PASSWORD_KEY));
         return connectionFactory;
     }
 
