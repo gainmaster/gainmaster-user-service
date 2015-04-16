@@ -1,6 +1,7 @@
 package no.gainmaster.user.amqp.configuration;
 
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -25,14 +26,16 @@ public abstract class RabbitServerConfiguration implements EnvironmentAware{
     protected final static String USERNAME_KEY = "username";
     protected final static String PASSWORD_KEY = "password";
 
+    protected final static String USER_EXCHANGE_NAME = "gainmaster.user.exchange.topic";
+    protected final static String SPRING_AMQP_PREFIX = "spring.amqp.";
+
     private Environment environment;
     private PropertyResolver propertyResolver;
-
 
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.amqp.");
+        this.propertyResolver = new RelaxedPropertyResolver(environment, SPRING_AMQP_PREFIX);
     }
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -45,4 +48,7 @@ public abstract class RabbitServerConfiguration implements EnvironmentAware{
 
     @Bean
     public AmqpAdmin amqpAdmin() { return new RabbitAdmin(connectionFactory());}
+
+    @Bean
+    public TopicExchange userTopicExchange() { return new TopicExchange(USER_EXCHANGE_NAME);}
 }

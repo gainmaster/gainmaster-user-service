@@ -10,23 +10,28 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by lorre on 4/13/15.
  */
 
 @Configuration
-public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
+public class UserRabbitPublisherConfiguration extends RabbitServerConfiguration{
 
-    protected final static String USER_EXCHANGE_NAME    = "gainmaster.user.exchange.topic";
     protected final static String USER_REPLY_QUEUE_NAME = "gainmaster.user.queue.reply";
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        configureTemplate(template);
+        template.setExchange(USER_EXCHANGE_NAME);
+        template.setReplyQueue(userReplyQueue());
+        template.setReplyTimeout(0);
         return template;
     }
 
@@ -47,18 +52,7 @@ public class UserRabbitServerConfiguration extends RabbitServerConfiguration{
     }
 
     @Bean
-    public MessageConverter jsonMessageConverter() { return new JsonMessageConverter();}
-
-    @Bean
-    public TopicExchange userTopicExchange() { return new TopicExchange(USER_EXCHANGE_NAME);}
-
-    @Bean
     public Queue userReplyQueue(){ return new Queue(USER_REPLY_QUEUE_NAME);}
 
-    private void configureTemplate(RabbitTemplate template){
-        //template.setMessageConverter(jsonMessageConverter());
-        template.setExchange(USER_EXCHANGE_NAME);
-        template.setReplyQueue(userReplyQueue());
-        template.setReplyTimeout(0);
-    }
+
 }

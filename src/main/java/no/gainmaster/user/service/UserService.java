@@ -3,6 +3,7 @@ package no.gainmaster.user.service;
 import no.gainmaster.user.amqp.gateway.UserRabbitGateway;
 import no.gainmaster.user.persistence.entity.UserEntity;
 import no.gainmaster.user.persistence.repository.UsersRepository;
+import no.gainmaster.user.web.rest.resource.assembler.UserResourceAssembler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private UserResourceAssembler userResourceAssembler;
 
     @Autowired
     private UserRabbitGateway userRabbitGateway;
@@ -28,9 +32,16 @@ public class UserService {
         userEntity.setCreated(new Date());
         userEntity = usersRepository.save(userEntity);
 
+        //TODO: Remove, for testing only
         //Send AMQP message
         userRabbitGateway.setRoutingKey("create");
-        userRabbitGateway.sendMessage(userEntity);
+        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
+
+        userRabbitGateway.setRoutingKey("delete");
+        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
+
+        userRabbitGateway.setRoutingKey("dummy");
+        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
 
         return userEntity;
     }
