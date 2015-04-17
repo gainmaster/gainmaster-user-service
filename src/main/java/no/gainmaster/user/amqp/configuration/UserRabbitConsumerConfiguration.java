@@ -4,7 +4,9 @@ package no.gainmaster.user.amqp.configuration;
  * Created by lorre on 4/16/15.
  */
 
+import com.rabbitmq.client.ConnectionFactory;
 import no.gainmaster.user.amqp.handler.GetCredentialsHandler;
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
