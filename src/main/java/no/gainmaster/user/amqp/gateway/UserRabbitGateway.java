@@ -19,14 +19,9 @@ public class UserRabbitGateway extends RabbitGatewaySupport implements UserGatew
 
     public void sendMessage(String routingKey, User userEntity){
         try {
-            //Create message
-            MessageProperties messageProperties = new MessageProperties();
-            messageProperties.setExpiration("30000");
-            messageProperties.setReplyTo("no.gainmaster.user.queue.reply");
-            Message message = new Message(ow.writeValueAsBytes(userEntity), messageProperties);
 
             //Send message
-            getRabbitTemplate().convertAndSend(routingKey, message);
+            getRabbitTemplate().convertAndSend(routingKey, ow.writeValueAsString(userEntity));
 
             System.out.println("RABBITMQ: Sent message with key " + routingKey + ": \n" + ow.writeValueAsString(userEntity));
         } catch (IOException e) {

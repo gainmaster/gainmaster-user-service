@@ -28,6 +28,7 @@ public class UserRabbitConsumerConfiguration extends RabbitServerConfiguration{
         container.setConnectionFactory(connectionFactory());
         container.setQueues(getUserQueue());
         container.setMessageListener(new MessageListenerAdapter(credentialsHandler));
+        container.setDefaultRequeueRejected(false);
         return container;
     }
 
