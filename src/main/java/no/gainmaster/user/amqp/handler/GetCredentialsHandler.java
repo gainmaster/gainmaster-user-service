@@ -20,17 +20,17 @@ public class GetCredentialsHandler {
 
     public String handleMessage(String text) {
 
-        //TODO: Get user
-        System.out.println("RABBITMQ - Got request " + text + ". Sending reply...");
+        System.out.println("RABBITMQ - Got request " + text);
 
         User user;
         try {
             user = userService.getUserFromUsername(text);
         } catch (UserNotFoundException e){
             System.out.println(e);
+            //If user not found, return emtpy string
             return "";
         }
-
+        System.out.println("RABBITMQ - Sending reply " + user.getPassword());
         return user.getPassword();
     }
 }

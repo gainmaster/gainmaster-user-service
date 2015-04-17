@@ -8,6 +8,7 @@ import no.gainmaster.user.service.User;
  */
 
 public interface UserGateway {
-    void sendMessage(User userEntity);
-    void setRoutingKey(String routingKey);
+
+    void sendMessage(String routingKey, User userEntity);
+
 }

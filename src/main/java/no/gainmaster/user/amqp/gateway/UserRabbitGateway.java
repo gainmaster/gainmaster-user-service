@@ -1,9 +1,9 @@
 package no.gainmaster.user.amqp.gateway;
 
-import no.gainmaster.user.persistence.entity.UserEntity;
 import no.gainmaster.user.service.User;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
 
 import java.io.IOException;
@@ -15,20 +15,22 @@ import java.io.IOException;
 
 public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
 
-    private String routingKey = "";
+    private ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
-    public void sendMessage(User userEntity){
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        //Send message
+    public void sendMessage(String routingKey, User userEntity){
         try {
-            getRabbitTemplate().convertSendAndReceive(routingKey, ow.writeValueAsString(userEntity));
-            System.out.println("RABBITMQ: Sent message with key=" + routingKey + ": \n" + ow.writeValueAsString(userEntity));
+            //Create message
+            MessageProperties messageProperties = new MessageProperties();
+            messageProperties.setExpiration("30000");
+            messageProperties.setReplyTo("no.gainmaster.user.queue.reply");
+            Message message = new Message(ow.writeValueAsBytes(userEntity), messageProperties);
+
+            //Send message
+            getRabbitTemplate().convertAndSend(routingKey, message);
+
+            System.out.println("RABBITMQ: Sent message with key " + routingKey + ": \n" + ow.writeValueAsString(userEntity));
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setRoutingKey(String routingKey){
-        this.routingKey = routingKey;
     }
 }

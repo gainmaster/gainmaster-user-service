@@ -21,13 +21,18 @@ import org.springframework.core.env.PropertyResolver;
 @Configuration
 public abstract class RabbitServerConfiguration implements EnvironmentAware{
 
+    //KEYS
     protected final static String HOSTNAME_KEY = "hostname";
     protected final static String PORT_KEY     = "port";
     protected final static String USERNAME_KEY = "username";
     protected final static String PASSWORD_KEY = "password";
-
-    protected final static String USER_EXCHANGE_NAME = "gainmaster.user.exchange.topic";
     protected final static String SPRING_AMQP_PREFIX = "spring.amqp.";
+
+    //EXCHANGE NAMES
+    protected final static String USER_EXCHANGE_NAME = "gainmaster.user.exchange.topic";
+
+    //AMQP SETTINGS
+    protected final static int REPLY_TIMEOUT = 2500;
 
     private Environment environment;
     private PropertyResolver propertyResolver;

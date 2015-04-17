@@ -33,15 +33,10 @@ public class UserService {
         userEntity = usersRepository.save(userEntity);
 
         //TODO: Remove, for testing only
-        //Send AMQP message
-        userRabbitGateway.setRoutingKey("create");
-        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
-
-        userRabbitGateway.setRoutingKey("delete");
-        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
-
-        userRabbitGateway.setRoutingKey("dummy");
-        userRabbitGateway.sendMessage(userResourceAssembler.toResource(userEntity));
+        //Send AMQP messages
+        userRabbitGateway.sendMessage("create", userEntity);
+        userRabbitGateway.sendMessage("delete", userEntity);
+        userRabbitGateway.sendMessage("dummy", userEntity);
 
         return userEntity;
     }
