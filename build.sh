@@ -13,19 +13,26 @@ declare DOCKER_IMAGE_NAME="gainmaster/gainmaster-user-service"
 cd $PROJECT_DIRECTORY
 
 function build {
-        docker build -t "${DOCKER_IMAGE_NAME}" .
+    if [ -z "$NOT_LATEST" ]; then
+    docker build -t ${DOCKER_IMAGE_NAME}:latest .
+    fi
+    if [ -n "$BUILD_NUMBER" ]; then
+        docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} .
+    fi
 }
 
 
 function test {
-    docker history "${DOCKER_IMAGE_NAME}" 2> /dev/null
+    if [ -n "$BUILD_NUMBER" ]; then $version=$BUILD_NUMBER; else $version=latest; fi
+
+    docker history ${DOCKER_IMAGE_NAME}:${version} 2> /dev/null
 
     if [ $? -eq 1 ]; then
-        echo "Cant test ${DOCKER_IMAGE_NAME}, the image does not exist."
+        echo "Cant test ${DOCKER_IMAGE_NAME}:${version}, the image is not built"
         exit 2
     fi
 
-    docker run -t "${DOCKER_IMAGE_NAME}" ./gradlew test
+    docker run -t "${DOCKER_IMAGE_NAME}:${version}" ./gradlew test
 }
 
 
@@ -102,16 +109,15 @@ for action in "${actions[@]}"; do
     case "$action" in
         build)
             echo "Executing build action"
-            build_application
-            build_docker_image
+            build
             ;;
         test)
             echo "Executing test action"
-            test_docker_image
+            test
             ;;
         push)
             echo "Executing push action"
-            push_docker_image
+            push
             ;;
 
         --*) break ;;
