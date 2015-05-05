@@ -1,4 +1,4 @@
-FROM bachelorthesis/java:latest
+FROM gainmaster/java:latest
 MAINTAINER Tony Hesjevik <tony@hesjevik.no>
 
 COPY ./ /srv/http/gainmaster-user-service

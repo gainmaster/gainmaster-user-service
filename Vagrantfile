@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "gainmaster-oauth-service" do |v|
     v.vm.provider "docker" do |d|
       # Docker image properties
-      d.image           = "bachelorthesis/gainmaster-oauth-service"
+      d.image           = "gainmaster/gainmaster-oauth-service"
       d.remains_running = true
 
       # Docker run configuration
