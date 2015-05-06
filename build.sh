@@ -23,7 +23,7 @@ function build {
 
 
 function test {
-    if [ -n "$BUILD_NUMBER" ]; then $version=$BUILD_NUMBER; else $version=latest; fi
+    if [ -n "$BUILD_NUMBER" ]; then version=$BUILD_NUMBER; else version='latest'; fi
 
     docker history ${DOCKER_IMAGE_NAME}:${version} 2> /dev/null
 

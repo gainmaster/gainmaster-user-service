@@ -1,4 +1,4 @@
-FROM gainmaster/java:jdk7-openjdk
+FROM gainmaster/java:latest
 MAINTAINER Tony Hesjevik <tony@hesjevik.no>
 
 COPY ./ /srv/http/gainmaster-user-service
