@@ -38,7 +38,7 @@ function test {
 
 function push {
     if [ -n "$BUILD_NUMBER" ]; then
-        "Not allowed to push a build without a build number!"
+        echo "Not allowed to push a build without a build number!"
     fi
 
 	docker history $DOCKER_IMAGE_NAME:${BUILD_NUMBER} 2> /dev/null
