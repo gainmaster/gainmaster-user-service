@@ -4,10 +4,10 @@
 
 This repository contains a **Dockerfile**, and a **Vagrantfile** for local development. This repository is a part of an automated build, published to the [Docker Hub][docker_hub_repository].
 
-**Base image:** [gainmaster/java:latest][docker_hub_base_image]
+**Base image:** [gainmaster/gradle][docker_hub_base_image]
 
 [docker_hub_repository]: https://registry.hub.docker.com/u/gainmaster/gainmaster-user-service/
-[docker_hub_base_image]: https://registry.hub.docker.com/u/gainmaster/java/
+[docker_hub_base_image]: https://registry.hub.docker.com/u/gainmaster/gradle/
 
 ## API
 
