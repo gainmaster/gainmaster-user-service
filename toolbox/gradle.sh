@@ -15,4 +15,4 @@ docker run -it --rm \
   -w="/project${WORK_DIR}/" \
   -e GRADLE_USER_HOME=/project/.gradle/ \
   --entrypoint gradle \
-  bachelorthesis/gradle $@
+  gainmaster/gradle $@
