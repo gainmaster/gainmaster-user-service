@@ -32,7 +32,7 @@ function test {
         exit 2
     fi
 
-    docker run -t "${DOCKER_IMAGE_NAME}:${version}" ./gradlew test
+    docker run -t "${DOCKER_IMAGE_NAME}:${version}" gradle test
 }
 
 
