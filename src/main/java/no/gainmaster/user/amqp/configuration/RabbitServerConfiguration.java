@@ -15,7 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 
 @Configuration
-public class RabbitServerConfiguration implements EnvironmentAware{
+public abstract class RabbitServerConfiguration implements EnvironmentAware{
 
     //KEYS
     protected final static String HOSTNAME_KEY = "hostname";
