@@ -127,7 +127,7 @@ for action in "${actions[@]}"; do
 
         post-build)
             echo "Executing post-build action"
-            cleanup_application_build
+            //cleanup_application_build
             ;;
 
         test)
