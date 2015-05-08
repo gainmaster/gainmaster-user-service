@@ -40,7 +40,7 @@ public class RabbitServerConfiguration implements EnvironmentAware{
     }
 
     @Bean
-    public static ConnectionFactory connectionFactory() {
+    public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(propertyResolver.getProperty(HOSTNAME_KEY));
         connectionFactory.setPort(Integer.parseInt(propertyResolver.getProperty(PORT_KEY)));
         connectionFactory.setUsername(propertyResolver.getProperty(USERNAME_KEY));
