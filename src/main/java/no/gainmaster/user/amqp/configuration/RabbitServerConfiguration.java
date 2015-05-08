@@ -15,7 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 
 @Configuration
-public class RabbitServerConfiguration implements EnvironmentAware{
+public class RabbitServerConfiguration {//implements EnvironmentAware{
 
     //KEYS
     protected final static String HOSTNAME_KEY = "hostname";
@@ -30,6 +30,7 @@ public class RabbitServerConfiguration implements EnvironmentAware{
     //AMQP SETTINGS
     protected final static int REPLY_TIMEOUT = 2500;
 
+    /*
     private Environment environment;
     private PropertyResolver propertyResolver;
 
@@ -46,7 +47,15 @@ public class RabbitServerConfiguration implements EnvironmentAware{
         connectionFactory.setUsername(propertyResolver.getProperty(USERNAME_KEY));
         connectionFactory.setPassword(propertyResolver.getProperty(PASSWORD_KEY));
         return connectionFactory;
-    }
+    }*/
+
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("amqp.service.hesjevik.im");
+        connectionFactory.setPort(5672);
+        connectionFactory.setUsername("gainmaster");
+        connectionFactory.setPassword("gainmaster");
+        return connectionFactory;
 
     @Bean
     public AmqpAdmin amqpAdmin() { return new RabbitAdmin(connectionFactory());}
