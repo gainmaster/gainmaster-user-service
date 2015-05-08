@@ -15,7 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 
 @Configuration
-public class RabbitServerConfiguration {//implements EnvironmentAware{
+public class RabbitServerConfiguration { //implements EnvironmentAware{
 
     //KEYS
     protected final static String HOSTNAME_KEY = "hostname";
@@ -56,6 +56,7 @@ public class RabbitServerConfiguration {//implements EnvironmentAware{
         connectionFactory.setUsername("gainmaster");
         connectionFactory.setPassword("gainmaster");
         return connectionFactory;
+    }
 
     @Bean
     public AmqpAdmin amqpAdmin() { return new RabbitAdmin(connectionFactory());}
