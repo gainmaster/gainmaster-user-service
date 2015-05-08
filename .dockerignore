@@ -3,8 +3,10 @@
 .gradle/
 .idea/
 build/
+!build/libs/gainmaster-user-service-0.1.0.war
 .editorconfig
 .gitattributes
+build.gradle
 .gitignore
 build.sh
 gainmaster-user-service.iml

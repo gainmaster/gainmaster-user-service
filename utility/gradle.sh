@@ -1,18 +1,31 @@
 #!/usr/bin/env bash
 
-EXEC_DIR=$(pwd)
-PROJ_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd)
+WORKING_DIRECTORY=$(pwd)
+PROJECT_DIRECTORY=$(cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd)
 
-if [[ ${EXEC_DIR} != ${PROJ_DIR}* ]]; then
-    echo "Gradle must be executed from within gainmaster-user-service project folder."
+if [[ ${WORKING_DIRECTORY} != ${PROJECT_DIRECTORY}* ]]; then
+    echo "Gradle must be executed from within the gainmaster-user-service project folder"
     exit 1
 fi
 
-WORK_DIR=${EXEC_DIR#"$PROJ_DIR"}
+DOCKER_WORKING_DIRECTORY=${WORKING_DIRECTORY#"$PROJECT_DIRECTORY"}
 
-docker run -it --rm \
-  -v /projects/gainmaster-user-service:/project \
-  -w="/project${WORK_DIR}/" \
-  -e GRADLE_USER_HOME=/project/.gradle/ \
-  --entrypoint gradle \
-  gainmaster/gradle $@
+if [ "$TERM" == "dumb" ]; then
+    DOCKER_RUN_OPTIONS=""
+else
+    DOCKER_RUN_OPTIONS="-it"
+fi
+
+if [ $(docker ps -a | grep gainmaster-user-service-data-container | wc -l) -ne 1 ] ; then
+    docker run $DOCKER_RUN_OPTIONS \
+        --name gainmaster-user-service-data-container \
+        --volume /root \
+        gainmaster/gradle echo "Data container started"
+fi
+
+docker run $DOCKER_RUN_OPTIONS --rm \
+    --volumes-from "gainmaster-user-service-data-container" \
+    --volume /projects/gainmaster-user-service:/project \
+    --workdir "/project${DOCKER_WORKING_DIRECTORY}/" \
+    --entrypoint gradle \
+    gainmaster/gradle $@

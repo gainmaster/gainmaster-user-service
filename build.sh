@@ -10,9 +10,20 @@ fi
 declare PROJECT_DIRECTORY=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 declare DOCKER_IMAGE_NAME="gainmaster/gainmaster-user-service"
 
-cd $PROJECT_DIRECTORY
+cd ${PROJECT_DIRECTORY}
 
-function build {
+function build_application
+{
+    ${PROJECT_DIRECTORY}/utility/gradle.sh build
+}
+
+
+function test_application
+{
+    ${PROJECT_DIRECTORY}/utility/gradle.sh test
+}
+
+function build_docker_image {
     if [ -z "$NOT_LATEST" ]; then
     docker build -t ${DOCKER_IMAGE_NAME}:latest .
     fi
@@ -21,22 +32,14 @@ function build {
     fi
 }
 
-
-function test {
-    if [ -n "$BUILD_NUMBER" ]; then version=$BUILD_NUMBER; else version='latest'; fi
-
-    docker history ${DOCKER_IMAGE_NAME}:${version} 2> /dev/null
-
-    if [ $? -eq 1 ]; then
-        echo "Cant test ${DOCKER_IMAGE_NAME}:${version}, the image is not built"
-        exit 2
-    fi
-
-    docker run -t "${DOCKER_IMAGE_NAME}:${version}" gradle test
+function test_docker_image
+{
+    echo "Testing docker image"
 }
 
 
-function push {
+function push_docker_image
+{
     if [ -n "$BUILD_NUMBER" ]; then
         echo "Not allowed to push a build without a build number!"
     fi
@@ -77,9 +80,6 @@ function push {
 # Handle input
 #
 
-#GETOPTS_STRING=`getopt -o b:l --long build-number: -n 'build.sh' -- "$@"`
-#eval set -- "$GETOPTS_STRING"
-
 while getopts "b:l --long build-number:" opt; do
     case "$1" in
         --build-number)
@@ -107,17 +107,30 @@ fi
 
 for action in "${actions[@]}"; do
     case "$action" in
+        pre-build)
+            echo "Executing pre-build action"
+            build_application
+            test_application
+            ;;
+
         build)
             echo "Executing build action"
+            build_docker_image
             build
             ;;
+
+        post-build)
+            echo "Executing post-build action"
+            ;;
+
         test)
             echo "Executing test action"
+            test_docker_image
             test
             ;;
         push)
             echo "Executing push action"
-            push
+            push_docker_image
             ;;
 
         --*) break ;;

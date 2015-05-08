@@ -1,10 +1,6 @@
-FROM gainmaster/gradle
+FROM gainmaster/java
 MAINTAINER Tony Hesjevik <tony@hesjevik.no>
 
-COPY ./ /srv/http/gainmaster-user-service
+COPY build/libs/gainmaster-user-service-0.1.0.war /src/http/gainmaster-user-service-0.1.0.war
 
-WORKDIR /srv/http/gainmaster-user-service
-
-RUN ["gradle", "build"]
-
-CMD ["java", "-jar", "./build/libs/gainmaster-user-service-0.1.0.war"]
+CMD ["java", "-jar", "/src/http/gainmaster-user-service-0.1.0.war"]
