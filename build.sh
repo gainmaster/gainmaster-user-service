@@ -29,7 +29,8 @@ function cleanup_application_build
     rm -f ${PROJECT_DIRECTORY}/.gradle
 }
 
-function build_docker_image {
+function build_docker_image
+{
     if [ -z "$NOT_LATEST" ]; then
     docker build -t ${DOCKER_IMAGE_NAME}:latest .
     fi
@@ -122,7 +123,6 @@ for action in "${actions[@]}"; do
         build)
             echo "Executing build action"
             build_docker_image
-            build
             ;;
 
         post-build)
