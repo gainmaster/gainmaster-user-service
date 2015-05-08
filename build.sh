@@ -133,7 +133,6 @@ for action in "${actions[@]}"; do
         test)
             echo "Executing test action"
             test_docker_image
-            test
             ;;
         push)
             echo "Executing push action"
