@@ -5,11 +5,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
 public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
 
     private ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
