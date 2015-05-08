@@ -27,5 +27,6 @@ docker run $DOCKER_RUN_OPTIONS --rm \
     --volumes-from "gainmaster-user-service-data-container" \
     --volume ${PROJECT_DIRECTORY}:/project \
     --workdir "/project${DOCKER_WORKING_DIRECTORY}/" \
+    --env GRADLE_USER_HOME=/root/.gradle/ \
     --entrypoint gradle \
     gainmaster/gradle $@
