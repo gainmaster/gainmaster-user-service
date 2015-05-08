@@ -14,10 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 
-/**
- * Created by lorre on 4/10/15.
- */
-
 @Configuration
 public abstract class RabbitServerConfiguration implements EnvironmentAware{
 
@@ -42,8 +38,9 @@ public abstract class RabbitServerConfiguration implements EnvironmentAware{
         this.environment = environment;
         this.propertyResolver = new RelaxedPropertyResolver(environment, SPRING_AMQP_PREFIX);
     }
+
     @Bean
-    public ConnectionFactory connectionFactory() {
+    public static ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(propertyResolver.getProperty(HOSTNAME_KEY));
         connectionFactory.setPort(Integer.parseInt(propertyResolver.getProperty(PORT_KEY)));
         connectionFactory.setUsername(propertyResolver.getProperty(USERNAME_KEY));

@@ -8,11 +8,6 @@ import org.springframework.amqp.rabbit.core.support.RabbitGatewaySupport;
 
 import java.io.IOException;
 
-
-/**
- * Created by lorre on 4/10/15.
- */
-
 public class UserRabbitGateway extends RabbitGatewaySupport implements UserGateway {
 
     private ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

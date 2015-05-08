@@ -6,11 +6,6 @@ import no.gainmaster.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-/**
- * Created by lorre on 4/16/15.
- */
-
 @Component
 public class GetCredentialsHandler {
 

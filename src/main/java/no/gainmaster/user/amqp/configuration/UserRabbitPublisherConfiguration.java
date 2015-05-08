@@ -9,11 +9,6 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
-/**
- * Created by lorre on 4/13/15.
- */
-
 @Configuration
 public class UserRabbitPublisherConfiguration extends RabbitServerConfiguration{
 

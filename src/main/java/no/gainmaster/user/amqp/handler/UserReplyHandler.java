@@ -2,10 +2,6 @@ package no.gainmaster.user.amqp.handler;
 
 import org.springframework.stereotype.Component;
 
-/**
- * Created by lorre on 4/13/15.
- */
-
 @Component
 public class UserReplyHandler {
 

@@ -1,9 +1,5 @@
 package no.gainmaster.user.amqp.configuration;
 
-/**
- * Created by lorre on 4/16/15.
- */
-
 import com.rabbitmq.client.ConnectionFactory;
 import no.gainmaster.user.amqp.handler.GetCredentialsHandler;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -35,8 +31,12 @@ public class UserRabbitConsumerConfiguration extends RabbitServerConfiguration{
     }
 
     @Bean
-    public Queue getUserQueue(){ return amqpAdmin().declareQueue(); }
+    public Queue getUserQueue() {
+        return amqpAdmin().declareQueue();
+    }
 
     @Bean
-    public Binding createUserQueueBinding(){ return BindingBuilder.bind(getUserQueue()).to(userTopicExchange()).with(USER_GET_ROUTING_KEY); }
+    public Binding createUserQueueBinding() {
+        return BindingBuilder.bind(getUserQueue()).to(userTopicExchange()).with(USER_GET_ROUTING_KEY);
+    }
 }
