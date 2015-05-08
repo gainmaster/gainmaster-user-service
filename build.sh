@@ -23,6 +23,12 @@ function test_application
     ${PROJECT_DIRECTORY}/utility/gradle.sh test
 }
 
+function cleanup_application_build
+{
+    rm -f ${PROJECT_DIRECTORY}/build
+    rm -f ${PROJECT_DIRECTORY}/.gradle
+}
+
 function build_docker_image {
     if [ -z "$NOT_LATEST" ]; then
     docker build -t ${DOCKER_IMAGE_NAME}:latest .
@@ -121,6 +127,7 @@ for action in "${actions[@]}"; do
 
         post-build)
             echo "Executing post-build action"
+            cleanup_application_build
             ;;
 
         test)
