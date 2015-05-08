@@ -25,7 +25,7 @@ fi
 
 docker run $DOCKER_RUN_OPTIONS --rm \
     --volumes-from "gainmaster-user-service-data-container" \
-    --volume /projects/gainmaster-user-service:/project \
+    --volume ${PROJECT_DIRECTORY}:/project \
     --workdir "/project${DOCKER_WORKING_DIRECTORY}/" \
     --entrypoint gradle \
     gainmaster/gradle $@
