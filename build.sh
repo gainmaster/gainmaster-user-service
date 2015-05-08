@@ -25,8 +25,8 @@ function test_application
 
 function cleanup_application_build
 {
-    rm -f ${PROJECT_DIRECTORY}/build
-    rm -f ${PROJECT_DIRECTORY}/.gradle
+    rm -rf ${PROJECT_DIRECTORY}/build
+    rm -rf ${PROJECT_DIRECTORY}/.gradle
 }
 
 function build_docker_image
