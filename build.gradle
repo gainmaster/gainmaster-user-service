@@ -58,6 +58,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-amqp")
 
     compile("com.h2database:h2")
+    compile("mysql:mysql-connector-java")
     compile("javax.inject:javax.inject:1")
     compile("org.springframework.hateoas:spring-hateoas")
     compile("org.springframework.security.oauth:spring-security-oauth2:2.0.7.RELEASE")
