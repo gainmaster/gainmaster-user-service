@@ -1,7 +1,7 @@
 package no.gainmaster.user.amqp.configuration;
 
 import com.rabbitmq.client.ConnectionFactory;
-import no.gainmaster.user.amqp.handler.GetCredentialsHandler;
+import no.gainmaster.user.amqp.handler.AuthenticateUserHandler;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -15,17 +15,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserRabbitConsumerConfiguration extends RabbitServerConfiguration{
 
-    protected final static String USER_GET_ROUTING_KEY   = "get";
+    protected final static String USER_AUTHENTICATION_ROUTING_KEY = "authentication";
 
     @Autowired
-    private GetCredentialsHandler credentialsHandler;
+    private AuthenticateUserHandler authenticateUserHandler;
 
     @Bean
     public SimpleMessageListenerContainer createUserListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory());
         container.setQueues(getUserQueue());
-        container.setMessageListener(new MessageListenerAdapter(credentialsHandler));
+        container.setMessageListener(new MessageListenerAdapter(authenticateUserHandler));
         container.setDefaultRequeueRejected(false);
         return container;
     }
@@ -37,6 +37,6 @@ public class UserRabbitConsumerConfiguration extends RabbitServerConfiguration{
 
     @Bean
     public Binding createUserQueueBinding() {
-        return BindingBuilder.bind(getUserQueue()).to(userTopicExchange()).with(USER_GET_ROUTING_KEY);
+        return BindingBuilder.bind(getUserQueue()).to(userTopicExchange()).with(USER_AUTHENTICATION_ROUTING_KEY);
     }
 }
