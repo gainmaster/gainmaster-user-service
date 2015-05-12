@@ -7,6 +7,7 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
 public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserResource> {
@@ -19,7 +20,8 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
     public UserResource toResource(User user) {
         UserResource resource = createResourceWithId(user.getUserId(), user);
         //TODO: discover related services and add links (message-bus)
-        resource.add(linkTo(UsersEndpoint.class).slash("measurements").withRel("measurements"));
+        resource.add(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUserId())).slash("measurements")
+            .withRel("measurements"));
         return resource;
     }
 
