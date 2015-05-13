@@ -21,6 +21,8 @@ public class OAuthProviderConfiguration extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().anyRequest().permitAll();
+        //TODO: required auth for requests
+        //http.authorizeRequests().anyRequest().authenticated();
     }
 
     @Bean

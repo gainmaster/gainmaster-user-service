@@ -55,26 +55,9 @@ public class UsersEndpoint {
         User user = userService.createUser(userResource);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUserId())).toUri());
+        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUsername())).toUri());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
-    }
-
-    /**
-     * Get user resource from id
-     *
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/{id:[\\d]+}", method = RequestMethod.GET)
-    public ResponseEntity<UserResource> getUser(@PathVariable Long id) {
-
-        User user = userService.getUserFromId(id);
-
-        return new ResponseEntity<>(
-            userResourceAssembler.toResource(user),
-            HttpStatus.OK
-        );
     }
 
     /**
@@ -83,7 +66,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
-    @RequestMapping(value = "/{username:[\\w]+}}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.GET)
     public ResponseEntity<UserResource> getUser(@PathVariable String username) {
 
         User user = userService.getUserFromUsername(username);
