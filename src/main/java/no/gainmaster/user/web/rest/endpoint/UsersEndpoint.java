@@ -13,7 +13,6 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -36,6 +35,14 @@ public class UsersEndpoint {
     private UserCollectionResourceAssembler userCollectionResourceAssembler;
 
 
+    /**
+     * Get user resource collection
+     *
+     * @param size
+     * @param page
+     * @param query
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<UserCollectionResource> getUsers(
         @RequestParam(defaultValue = "15") Integer size,
@@ -50,6 +57,12 @@ public class UsersEndpoint {
         );
     }
 
+    /**
+     * Add user resource
+     *
+     * @param userResource
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addUser(@Valid @RequestBody UserResource userResource) {
         //TODO: authorization (not logged in)
@@ -62,7 +75,7 @@ public class UsersEndpoint {
     }
 
     /**
-     * Get user resource from username
+     * Get user resource
      *
      * @param username
      * @return
@@ -81,11 +94,11 @@ public class UsersEndpoint {
     /**
      * Update user resource
      *
-     * @param id
+     * @param username
      * @return
      */
-    @RequestMapping(value = "/{id:[\\d]+}", method = RequestMethod.PATCH)
-    public ResponseEntity updateUser(@PathVariable Long id) {
+    @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.PATCH)
+    public ResponseEntity updateUser(@PathVariable String username) {
         //TODO: authorization
         //TODO: implement method
         return null;
@@ -94,11 +107,11 @@ public class UsersEndpoint {
     /**
      * Delete user resource
      *
-     * @param id
+     * @param username
      * @return
      */
-    @RequestMapping(value = "/{id:[\\d]+}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteUser(@PathVariable Long id) {
+    @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable String username) {
         //TODO: authorization
         //TODO: implement method
         return null;

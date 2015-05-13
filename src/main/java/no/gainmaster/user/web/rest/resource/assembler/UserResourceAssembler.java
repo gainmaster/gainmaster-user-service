@@ -18,7 +18,7 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
 
     @Override
     public UserResource toResource(User user) {
-        UserResource resource = createResourceWithId(user.getUserId(), user);
+        UserResource resource = createResourceWithId(user.getUsername(), user);
         //TODO: discover related services and add links (message-bus)
         resource.add(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUsername())).slash("measurements")
             .withRel("measurements"));
@@ -28,6 +28,7 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
     @Override
     protected UserResource instantiateResource(User user) {
         UserResource resource = new UserResource();
+        resource.setUserId(user.getUserId());
         resource.setName(user.getName());
         resource.setUsername(user.getUsername());
         resource.setEmail(user.getEmail());

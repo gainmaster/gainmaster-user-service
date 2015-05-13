@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 @Relation(value = "user", collectionRelation = "users")
 public class UserResource extends ResourceSupport implements User {
 
+    private Long id;
+
     @NotNull
     @Size(min = 2, max = 255)
     private String name;
@@ -38,8 +40,12 @@ public class UserResource extends ResourceSupport implements User {
 
     @JsonIgnore
     public Long getUserId() {
-        // TODO: Fix this user id mess!
-        return null;
+        return id;
+    }
+
+    @JsonIgnore
+    public void setUserId(Long id) {
+        this.id = id;
     }
 
     @JsonProperty
