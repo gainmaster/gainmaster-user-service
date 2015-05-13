@@ -55,7 +55,7 @@ public class UsersEndpoint {
         User user = userService.createUser(userResource);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUserId())).toUri());
+        headers.setLocation(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUsername())).toUri());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
