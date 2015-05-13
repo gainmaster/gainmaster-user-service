@@ -33,12 +33,10 @@ public class OAuthConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/users/*").permitAll();
         http.authorizeRequests()
                 .anyRequest()
                     .authenticated();
-    //        .and()
-    //            .requestMatcher(new AntPathRequestMatcher("/users", "POST")).anonymous();
-    //     TODO: Authenticate only client on add user
     }
 
     @Bean
