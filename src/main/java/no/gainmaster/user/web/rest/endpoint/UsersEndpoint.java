@@ -13,6 +13,7 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -43,6 +44,7 @@ public class UsersEndpoint {
      * @param query
      * @return
      */
+    @PreAuthorize("#oauth2.clientHasRole(admin)")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<UserCollectionResource> getUsers(
         @RequestParam(defaultValue = "15") Integer size,
@@ -63,6 +65,7 @@ public class UsersEndpoint {
      * @param userResource
      * @return
      */
+    @PreAuthorize("#oauth2.hasScope(write)")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addUser(@Valid @RequestBody UserResource userResource) {
         //TODO: authorization (not logged in)
@@ -80,6 +83,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
+    @PreAuthorize("(principal == #username and #oauth2.hasScope(read)) or #oauth2.clientHasRole(admin)")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.GET)
     public ResponseEntity<UserResource> getUser(@PathVariable String username) {
 
@@ -97,6 +101,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
+    @PreAuthorize("(principal == #username and #oauth2.hasScope(read)) or #oauth2.clientHasRole(admin)")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.PATCH)
     public ResponseEntity updateUser(@PathVariable String username) {
         //TODO: authorization
@@ -110,6 +115,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
+    @PreAuthorize("(principal == #username and #oauth2.hasScope(write)) or #oauth2.clientHasRole(admin)")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUser(@PathVariable String username) {
         //TODO: authorization
