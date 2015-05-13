@@ -20,7 +20,7 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
     public UserResource toResource(User user) {
         UserResource resource = createResourceWithId(user.getUserId(), user);
         //TODO: discover related services and add links (message-bus)
-        resource.add(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUserId())).slash("measurements")
+        resource.add(linkTo(methodOn(UsersEndpoint.class).getUser(user.getUsername())).slash("measurements")
             .withRel("measurements"));
         return resource;
     }
