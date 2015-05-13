@@ -44,7 +44,7 @@ public class UsersEndpoint {
      * @param query
      * @return
      */
-    @PreAuthorize("#oauth2.clientHasRole('ROLE_ADMIN')")
+    //@PreAuthorize("#oauth2.clientHasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<UserCollectionResource> getUsers(
         @RequestParam(defaultValue = "15") Integer size,
@@ -65,7 +65,7 @@ public class UsersEndpoint {
      * @param userResource
      * @return
      */
-    @PreAuthorize("#oauth2.hasScope('write')")
+    //@PreAuthorize("#oauth2.hasScope('write')")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addUser(@Valid @RequestBody UserResource userResource) {
         //TODO: authorization (not logged in)
@@ -83,7 +83,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
-    @PreAuthorize("(principal == #username and #oauth2.hasScope('read')) or #oauth2.clientHasRole('admin')")
+    //@PreAuthorize("(principal == #username and #oauth2.hasScope('read')) or #oauth2.clientHasRole('admin')")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.GET)
     public ResponseEntity<UserResource> getUser(@PathVariable String username) {
 
@@ -101,7 +101,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
-    @PreAuthorize("(principal == #username and #oauth2.hasScope('read')) or #oauth2.clientHasRole('admin')")
+    //@PreAuthorize("(principal == #username and #oauth2.hasScope('read')) or #oauth2.clientHasRole('admin')")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.PATCH)
     public ResponseEntity updateUser(@PathVariable String username) {
         //TODO: authorization
@@ -115,7 +115,7 @@ public class UsersEndpoint {
      * @param username
      * @return
      */
-    @PreAuthorize("(principal == #username and #oauth2.hasScope('write')) or #oauth2.clientHasRole('admin')")
+    //@PreAuthorize("(principal == #username and #oauth2.hasScope('write')) or #oauth2.clientHasRole('admin')")
     @RequestMapping(value = "/{username:[\\w]+}", method = RequestMethod.DELETE)
     public ResponseEntity deleteUser(@PathVariable String username) {
         //TODO: authorization
