@@ -44,7 +44,7 @@ public class UsersEndpoint {
      * @param query
      * @return
      */
-    @PreAuthorize("#oauth2.clientHasRole('admin')")
+    @PreAuthorize("#oauth2.clientHasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<UserCollectionResource> getUsers(
         @RequestParam(defaultValue = "15") Integer size,
