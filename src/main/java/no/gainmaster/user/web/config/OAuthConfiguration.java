@@ -32,7 +32,15 @@ public class OAuthConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        //Allow options pre-flight
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/users/*").permitAll();
+
+        //Allow POST user if client has admin authority
+        //TODO: Remove access for all
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll();
+        //http.authorizeRequests().antMatchers(HttpMethod.POST, "/users").hasAuthority("ROLE_ADMIN");
+
+        //Require authentication on all resources
         http.authorizeRequests().anyRequest().authenticated();
     }
 
